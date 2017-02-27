@@ -4,9 +4,20 @@
         <title></title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href="css/style.css" rel="stylesheet">
+        <link href="bulma.css" rel="stylesheet">
     </head>
     <body>
-    
+        <form method="POST" action="registro.php">
+
+        <table>
+            <tr>
+                <td>Nombre de usuario: <input type="text" name="nombre" required></td>
+                <td>Contraseña: <input type="password" name="pass" required></td>
+            </tr>
+            <tr>
+                <td><input type="submit" value="Enviar"><input type="reset" value="Reestablecer"></td>
+            </tr>
+        </table>
+        </form>
     </body>
 </html>
