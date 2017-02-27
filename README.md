@@ -8,4 +8,4 @@ Esta web está destinada a usarse para almacenar y gestionar datos de los torneo
 * Cálculo de premios en función de la cantidad introducida y el número de personas
 
 ## Requerimientos mínimos:
-`PHP` versión 7.1, `Mysql`, `npm`, ``bulma`(framework css)
+`PHP` versión 7.1, `Mysql`, `npm`, `bulma`(framework css)
