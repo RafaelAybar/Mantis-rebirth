@@ -12,16 +12,9 @@
             mysqli_select_db ($conexion, "mantis")
                         or die ("no se puede seleccionar la BD" );
                           //realizamos la consulta para registrar al usuario
-            $consulta = "INSERT INTO `jugadores` (`nombre`, `contrasena`) VALUES ('$usuario', '$passcif');";
-            $insert = mysqli_query($conexion,$consulta) or die("La inserción no se pudo realizar");
-            echo "<h3>Enhorabuena, te has registrado </h3>";
+            $consulta = "SELECT nombre FROM jugadores WHERE EXISTS (nombre='$usuario') AND(contrasena='$passcif');";
+            $insert = mysqli_query($conexion,$consulta) or die("Autentificación fallida");
             mysqli_close($conexion);
                     }
-      else {
-            die("La contraseña ha de ser de 8 caracteres o más");
-        }
-    }
-    else {
-        die("Debes introducir todos los campos");
     }
 ?>
