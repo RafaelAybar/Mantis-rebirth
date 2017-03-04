@@ -9,3 +9,8 @@ Esta web está destinada a usarse para almacenar y gestionar datos de los torneo
 
 ## Requerimientos mínimos:
 `PHP` versión 7.1, `Mysql`, `npm`, `bulma`(framework css)
+
+## Estructura de la bd:
+* jugadores (__nombre__, contrasena)
+* torneo (__idtorneo__)
+* participa (__nombre, idtorneo__, fecha, mazo)
