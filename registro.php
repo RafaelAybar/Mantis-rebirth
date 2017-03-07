@@ -1,11 +1,11 @@
 <?php
     $usuario = $_POST['nombre'];
     $pass = $_POST['pass'];
-    if (isset($usuario) && isset($pass)) {
-        if (strlen($pass)>= 8) {
+    $pass2 = $_POST['pass2'];
+    if (isset($usuario) && isset($pass) && ($pass2==$pass)) {
+        if (strlen($pass)>= 8 ) {
             //ciframos la contraseña
-            $secreto = "Hecho por Rafael Aybar Segura";
-            $passcif = hash_hmac('sha1',$pass,$secreto);
+            $passcif = password_hash($pass,PASSWORD_BCRYPT) ;
             //conectamos a la bd (las contraseñas son de prueba, hay que sustituirlas por otras más seguras)
             $conexion = mysqli_connect("localhost","root","") or
                         die("conexión errónea");
@@ -18,7 +18,7 @@
             mysqli_close($conexion);
                     }
       else {
-            die("La contraseña ha de ser de 8 caracteres o más");
+            die("Comprueba que la contraseña tiene 8 caracteres o más y que la has introducido correctamente");
         }
     }
     else {
