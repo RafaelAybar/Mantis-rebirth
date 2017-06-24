@@ -9,7 +9,6 @@
             //ciframos la contraseña, con las funciones de php7 destinadas para ello
             // más información en https://diego.com.es/encriptacion-y-contrasenas-en-php
             $passhash = password_hash($pass, PASSWORD_DEFAULT);
-            echo "La contraseña cifrada es $passhash </br>";
             //conectamos a la bd (las contraseñas son de prueba, hay que sustituirlas por otras más seguras)
             $conexion = mysqli_connect("localhost","root","") or
                         die("conexión errónea");

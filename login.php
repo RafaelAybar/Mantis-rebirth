@@ -1,20 +1,27 @@
 <?php
-    $usuario = $_POST['nombre'];
-    $pass = $_POST['pass'];
+
+    $usuario = stripslashes(trim($_POST['nombre']));;
+    $pass = stripslashes(trim($_POST['pass']));;
+    
     if (isset($usuario) && isset($pass)) {
         if (strlen($pass)>= 8) {
-            //ciframos la contraseña
-            $secreto = "Hecho por Rafael Aybar Segura";
-            $passcif = hash_hmac('sha1',$pass,$secreto);
-            //conectamos a la bd (las contraseñas son de prueba, hay que sustituirlas por otras más seguras)
-            $conexion = mysqli_connect("localhost","root","") or
+                $conexion = mysqli_connect("localhost","root","") or
                         die("conexión errónea");
             mysqli_select_db ($conexion, "mantis")
                         or die ("no se puede seleccionar la BD" );
-                          //realizamos la consulta para registrar al usuario
-            $consulta = "SELECT nombre FROM jugadores WHERE EXISTS (nombre='$usuario') AND(contrasena='$passcif');";
-            $insert = mysqli_query($conexion,$consulta) or die("Autentificación fallida");
+            //obtenemos el usuario y su contraseña del usuario registrado
+            $consulta = "SELECT contrasena FROM jugadores WHERE EXISTS (nombre='$usuario');";
+            $comprobacion = mysqli_query($conexion,$consulta) or die("Autentificación fallida");
+            $columnas = $comprobacion->fetch_array(MYSQLI_ASSOC);
+          if (password_verify($pass, $columnas['contrasena'])) {
+              echo "Enhorabuena, te has logueado correctamente <br>";
+          }
+                
+            
             mysqli_close($conexion);
                     }
+    }
+    else {
+        die("Mira, te comento, debes introducir los datos, ¿VALE?");
     }
 ?>
