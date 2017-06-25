@@ -8,7 +8,9 @@
         if (strlen($pass)>= 8 && strlen($pass2)>= 8) {
             //ciframos la contraseña, con las funciones de php7 destinadas para ello
             // más información en https://diego.com.es/encriptacion-y-contrasenas-en-php
-            $passhash = password_hash($pass, PASSWORD_DEFAULT);
+            //Cambiamos el coste del algoritmo para que sea más complejo
+            $coste = ['coste'=> 18];
+            $passhash = password_hash($pass, PASSWORD_DEFAULT,$coste);
             //conectamos a la bd (las contraseñas son de prueba, hay que sustituirlas por otras más seguras)
             $conexion = mysqli_connect("localhost","root","") or
                         die("conexión errónea");
