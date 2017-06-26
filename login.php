@@ -10,7 +10,7 @@
             mysqli_select_db ($conexion, "mantis")
                         or die ("no se puede seleccionar la BD" );
             //obtenemos el usuario y su contraseña del usuario registrado
-            $consulta = "SELECT contrasena FROM jugadores WHERE EXISTS (nombre='$usuario');";
+            $consulta = "SELECT contrasena FROM jugadores WHERE (nombre='$usuario');";
             $comprobacion = mysqli_query($conexion,$consulta) or die("Autentificación fallida");
             $columnas = $comprobacion->fetch_array(MYSQLI_ASSOC);
           if (password_verify($pass, $columnas['contrasena'])) {
