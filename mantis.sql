@@ -28,7 +28,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `jugadores` (
   `nombre` varchar(25) COLLATE utf8mb4_spanish2_ci NOT NULL,
-  `contrasena` varchar(25) COLLATE utf8mb4_spanish2_ci NOT NULL
+  `contrasena` varchar(255) COLLATE utf8mb4_spanish2_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci;
 
 --

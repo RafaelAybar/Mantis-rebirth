@@ -21,21 +21,18 @@
                //Definimos el un objeto, que se llama usuario y sus propiedades
                $jugador = (object)[
                    'nombre'=> $nickjugador,
-                   'pass'=> password_hash($pass, PASSWORD_DEFAULT,$coste)
                ];
-               //Comprobamos la contraseña hasheada
-               echo "Los datos del usuario son </br>";
-               var_dump($jugador);
-               echo "Los datos de la consulta son: </br>";
                //Preparamos la consulta
                $consultaprep = $conexion -> prepare("SELECT contrasena FROM jugadores WHERE (nombre = ?)");
                //Ligamos los parámetros
                $consultaprep -> bind_param("s", $jugador->nombre);
                //Ejecutamos la consulta
                $consultaprep ->execute();
-               $consulta = $consultaprep -> fetch();
-               var_dump($consulta);
-                if (password_verify($pass,$consulta)) {
+               //Ligamos el resultado a una variable, un string
+               $consultaprep -> bind_result($resultado);
+               $consultaprep -> fetch();
+               //Comprobamos que coinciden las contraseñas
+                if (password_verify($pass,$resultado)) {
                    echo "Esto funciona";
                 }
                 else {
