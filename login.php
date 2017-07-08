@@ -33,11 +33,14 @@
                $consultaprep -> fetch();
                //Comprobamos que coinciden las contraseñas
                 if (password_verify($pass,$resultado)) {
-                   echo "Esto funciona";
+                    session_start();
+                    echo "Enhorabuena, te has logueado, puedes acceder a <a href='cpanel.php'>Panel de control</a>";
                 }
                 else {
                     die("El nombre o la contraseña no funciona");
                 }
+                $consultaprep -> close();
+                $conexion ->close();
            }
         }
         else {
