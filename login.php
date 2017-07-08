@@ -1,12 +1,10 @@
 <?php
 
     if (isset($_POST['nombre']) && isset($_POST['pass'])) {
-        $usuario = stripslashes(trim($_POST['nombre']));
+        $nickjugador = stripslashes(trim($_POST['nombre']));
         $pass = stripslashes(trim($_POST['pass']));
-
-        //ciframos la contraseña
-        //$coste = ['coste'=>18];
-        //$passhash = password_hash($pass, PASSWORD_DEFAULT,$coste);
+        //Definimos el coste hash
+       $coste = ['coste'=>18];
         if (strlen($pass)>= 8) {
                 //He seguido la siguiente documentación: https://www.w3schools.com/php/php_mysql_prepared_statements.asp
                 //Definimos los parámetros de mysqli, primero estableciendo los parámetros de conexión:
@@ -20,22 +18,29 @@
             die("No se pudo conectar ".$conexion->connect_error);
            }
            else {
+               //Definimos el un objeto, que se llama usuario y sus propiedades
+               $jugador = (object)[
+                   'nombre'=> $nickjugador,
+                   'pass'=> password_hash($pass, PASSWORD_DEFAULT,$coste)
+               ];
+               //Comprobamos la contraseña hasheada
+               echo "Los datos del usuario son </br>";
+               var_dump($jugador);
+               echo "Los datos de la consulta son: </br>";
                //Preparamos la consulta
-               $consultaprep = $conexion -> prepare("SELECT contrasena FROM jugadores WHERE (nombre = ?) AND (contrasena = ?)");
+               $consultaprep = $conexion -> prepare("SELECT contrasena FROM jugadores WHERE (nombre = ?)");
                //Ligamos los parámetros
-               $consultaprep -> bind_param("ss", $usuario, $pass);
+               $consultaprep -> bind_param("s", $jugador->nombre);
                //Ejecutamos la consulta
                $consultaprep ->execute();
                $consulta = $consultaprep -> fetch();
-               
-               if(password_verify($pass,$consulta)){
-                    echo "Enhorabuana, te has logueado";
-               }
-               else {
-                   die("La contraseña o el nombre no coinciden");
-               }
-               $consultaprep -> close();
-               $conexion -> close();
+               var_dump($consulta);
+                if (password_verify($pass,$consulta)) {
+                   echo "Esto funciona";
+                }
+                else {
+                    die("El nombre o la contraseña no funciona");
+                }
            }
         }
         else {
