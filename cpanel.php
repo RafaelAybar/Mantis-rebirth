@@ -16,32 +16,8 @@ if (is_string($fechanueva) && is_string($_SESSION['instante'])) {
         session_unset();
         session_destroy();
     }
-
 }
 else {
     die("No se pudo realizar");
 }
 ?>
-<!DOCTYPE html>
-<html lang="es">
-    <head>
-        <title>Panel de control</title>
-        <meta charset="UTF-8">
-        <link href="bulma.css" rel="stylesheet">
-    </head>
-    <body>
-        <h1>Panel de control de Open-Mantis</h1>
-        <form action="torneo.php" method="POST">
-            <table>
-                <tr>
-                    <td><a href="creatorneo.php">Crear torneo</a></td>
-                    <td><a href="statsplayer.php">Estadísticas de jugadores</a></td>
-                    <td><a href="statsmazo.php">Estadísticas de mazo</a>
-                </tr>
-                <tr>
-                    <td>Logout (en progreso)</td>
-                </tr>
-            </table>
-        </form>
-    </body>
-</html>
