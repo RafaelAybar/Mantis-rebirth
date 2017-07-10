@@ -1,6 +1,6 @@
 <?php
 //Comprobamos que sólo pueden acceder usuasios logueados
-if (empty($_SESSION)) {
+if (empty($_SESSION['nick']) || is_null($_SESSION['nick'])) {
     die("Debes introducir todos los datos");
 }
 else {
