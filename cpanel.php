@@ -1,10 +1,10 @@
 <?php
 session_start();
-echo "Bienvenido ".$_SESSION['nick']." , has iniciado sesión en la fecha ".$_SESSION['instante']."</br>";
-$fechanueva = date("Y-m-d H:i:s");
-echo "</br>";
 //Comprobamos que es una cadena
 if (isset($_SESSION['nick']) && isset($_SESSION['instante'])) {
+    echo "Bienvenido ".$_SESSION['nick']." , has iniciado sesión en la fecha ".$_SESSION['instante']."</br>";
+    $fechanueva = date("Y-m-d H:i:s");
+    echo "</br>";
     //Pasamos la cadena a valores de feccha
     $fecha1 = date_create($_SESSION['instante']);
     $fecha2 = date_create($fechanueva);
