@@ -4,13 +4,16 @@ echo "Bienvenido ".$_SESSION['nick']." , has iniciado sesión en la fecha ".$_SE
 $fechanueva = date("Y-m-d H:i:s");
 echo "</br>";
 //Comprobamos que es una cadena
-if (is_string($fechanueva) && is_string($_SESSION['instante'])) {
+if (isset($_SESSION['nick']) && isset($_SESSION['instante'])) {
     //Pasamos la cadena a valores de feccha
     $fecha1 = date_create($_SESSION['instante']);
     $fecha2 = date_create($fechanueva);
     //Calculamos la diferencia
     $diferencia = date_diff($fecha1,$fecha2);
     //Especificamos que si la difencia es mayor de 4 horas la sesión caduque
+}
+else {
+    die("Debes hacer el login primero");
 }
 ?>
 <!DOCTYPE html>

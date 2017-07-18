@@ -56,3 +56,13 @@
             die("Mira, te comento, debes introducir los datos, ¿VALE?");
         }
 ?>
+<html lang="es">
+    <head>
+        <title>Registro</title>
+        <meta charset="UTF-8">
+        <link href="bulma.css" rel="stylesheet">
+        <br>
+    </head>
+    <body>
+    </body>
+</html>
