@@ -30,10 +30,10 @@ else {
         <form method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>">
             <table>
                 <tr>
-                    <td>Número de rondas (mínimo 2, máximo 10)</td><td><input type="number" name="cantrondas" min="3" max="8"></td>
+                    <td>Número de rondas (mínimo 3, máximo 10)</td><td><input type="number" name="cantrondas" min="3" max="8"></td>
                 </tr>
                 <tr>
-                    <td>Lista de Jugadores</td><td><?php
+                    <td>Selección de Jugadores</td><td><?php
                     //Haremos una consulta para mostrar todos los jugores registrados
                     $nombreserver = "localhost";
                     $usuario = "root";
@@ -46,11 +46,26 @@ else {
                     $resultado = $conexion -> query($consulta);
                     //Mostramos todos los nombres
                    while ($columna = $resultado -> fetch_assoc()) {
-                       echo"Jugador ".$columna['nombre']."</br>";
+                      $nombre = $columna['nombre'];
+                      echo"Jugador ".$nombre."<input type='checkbox' name='nombre[]' value='$nombre'>"."</br>";
                    }
                     ?></td>
-                </tr>l
+                </tr>
+                <tr>
+                    <td><input type="submit" value="Enviar"></td><td><input type="reset" value="Reestablecer"></td>
+                </tr>
             </table>
         </form>
+        <?php
+        if (isset($_POST['cantrondas']) && isset($_POST['nombre'])) {
+            $cantrondas = $_POST['cantrondas'];
+            $nombres = $_POST['nombre'];
+            echo "$cantrondas";
+            print_r($nombres);
+        }
+        else {
+            echo"Debes introducir todos los datos";
+        }
+        ?>
     </body>
 </html>
