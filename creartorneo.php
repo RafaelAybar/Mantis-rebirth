@@ -33,8 +33,23 @@ else {
                     <td>Número de rondas (mínimo 2, máximo 10)</td><td><input type="number" name="cantrondas" min="3" max="8"></td>
                 </tr>
                 <tr>
-                    <td>Jugadores</td><td></td>
-                </tr>
+                    <td>Lista de Jugadores</td><td><?php
+                    //Haremos una consulta para mostrar todos los jugores registrados
+                    $nombreserver = "localhost";
+                    $usuario = "root";
+                    $contra = "";
+                    $bd = "mantis";
+                    $conexion = mysqli_connect($nombreserver, $usuario, $contra, $bd) or die("No se pudo conectar");
+                    
+                    //Preparamos la consulta
+                    $consulta="SELECT nombre FROM jugadores";
+                    $resultado = $conexion -> query($consulta);
+                    //Mostramos todos los nombres
+                   while ($columna = $resultado -> fetch_assoc()) {
+                       echo"Jugador ".$columna['nombre']."</br>";
+                   }
+                    ?></td>
+                </tr>l
             </table>
         </form>
     </body>

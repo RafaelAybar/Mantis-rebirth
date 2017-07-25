@@ -28,7 +28,7 @@ else {
         <form action="torneo.php" method="POST">
             <table>
                 <tr>
-                    <td><a href="creatorneo.php">Crear torneo</a></td>
+                    <td><a href="creartorneo.php">Crear torneo</a></td>
                     <td><a href="statsplayer.php">Estadísticas de jugadores</a></td>
                     <td><a href="statsmazo.php">Estadísticas de mazo</a>
                 </tr>
