@@ -30,10 +30,10 @@ else {
         <form method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>">
             <table>
                 <tr>
-                    <td>Número de rondas (mínimo 3, máximo 10)</td><td><input type="number" name="cantrondas" min="3" max="8"></td>
+                    <td>Número de rondas (mínimo 3, máximo 10)</td><td><input type="number" name="cantrondas" min="3" max="8" required></td>
                 </tr>
                 <tr>
-                    <td>Selección de Jugadores</td><td><?php
+                    <td>Selección de Jugadores (mínimo 4)</td><td><?php
                     //Haremos una consulta para mostrar todos los jugores registrados
                     $nombreserver = "localhost";
                     $usuario = "root";
@@ -57,15 +57,24 @@ else {
             </table>
         </form>
         <?php
-        if (isset($_POST['cantrondas']) && isset($_POST['nombre'])) {
-            $cantrondas = $_POST['cantrondas'];
-            $nombres = $_POST['nombre'];
-            echo "$cantrondas";
-            print_r($nombres);
-        }
-        else {
-            echo"Debes introducir todos los datos";
-        }
+            //Nos aseguramos de que la cantidad de rondas sea un número entero
+            if (isset($_POST['cantrondas']) && isset($_POST['nombre']) && is_numeric($_POST['cantrondas'])) {
+                $cantrondas = (int) $_POST['cantrondas'];
+                $nombres = $_POST['nombre'];
+                
+                //Nos aseguramos de que se cumpla el mínimo de participantes
+                $numparticipantes = count($nombres);
+                    if ($numparticipantes < 4) {
+                        echo "Debes seleccionar cuatro o más participantes";
+                        }
+                    else {
+                        echo "Se van a jugar $cantrondas rondas, con $numparticipantes participantes";
+                    }   
+                }
+       
+            else {
+                echo"Debes introducir todos los datos";
+            }
         ?>
     </body>
 </html>
