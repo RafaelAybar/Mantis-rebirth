@@ -38,7 +38,7 @@
             }
             }
           else {
-            die("Debes introducir un tipo válido");
+            die("La cantidad debe ser un valor numérico coherente");
           }
         }
 ?>
