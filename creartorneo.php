@@ -62,16 +62,34 @@ else {
                 $cantrondas = (int) $_POST['cantrondas'];
                 $nombres = $_POST['nombre'];
                 
-                //Nos aseguramos de que se cumpla el mínimo de participantes
+                //Nos aseguramos de que se cumpla el mínimo de participantes y el numero max y min de rondas
                 $numparticipantes = count($nombres);
-                    if ($numparticipantes < 4) {
+                if ($numparticipantes < 4) {
                         echo "Debes seleccionar cuatro o más participantes";
                         }
                     else {
-                        echo "Se van a jugar $cantrondas rondas, con $numparticipantes participantes";
-                    }   
+                        echo "Se van a jugar $cantrondas rondas, con $numparticipantes participantes </br>";
+                        //Procedemos a emparejar a los usuarios, si son pares o no
+                        if ($numparticipantes % 2 == 0) {
+                            echo "EMPAREJAMIENTOS:</br>";
+                            //Añadimos el emparejamiento de la primera ronda
+                            shuffle($nombres); //Mezclamos los nombres
+                            for ($i=0; $i < count($nombres) ; $i+=2) { //El operador += establece el valor de $i como si se hubiera dicho $i = $i+2;
+                                echo $nombres[$i]." vs ".$nombres[$i+1]."<br>";
+                        }                  
+                        }
+                        else {
+                            echo "EMPAREJAMIENTOS:</br>";
+                            $bye = "BYE";
+                            //Añadimos el bye, al array para indicar que el que se quede solo tenga la victoria automática
+                            array_push($nombres, $bye);
+                            shuffle($nombres);
+                            for ($i=0; $i < count($nombres) ; $i+=2) {
+                                 echo $nombres[$i]." vs ".$nombres[$i+1]."<br>";
+                            }        
+                    }
                 }
-       
+            }
             else {
                 echo"Debes introducir todos los datos";
             }
