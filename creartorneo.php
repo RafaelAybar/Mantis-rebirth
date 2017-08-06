@@ -27,7 +27,7 @@ else {
         <h1>Bienvenido a la web de creación de torneos de Open-Mantis</h1>
         </br>
         <h5>Para crear el torneo introduce los siguientes elentos:</h5>
-        <form method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+        <form id="espectorneo" method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>">
             <table>
                 <tr>
                     <td>Número de rondas (mínimo 3, máximo 10)</td><td><input type="number" name="cantrondas" min="3" max="8" required></td>
@@ -56,7 +56,9 @@ else {
                 </tr>
             </table>
         </form>
-        <?php
+        <!-- Muy importante asigarle un ID a cada formulario, para evittar problemas -->
+        <form id="formboton" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+            <?php
             //Nos aseguramos de que la cantidad de rondas sea un número entero
             if (isset($_POST['cantrondas']) && isset($_POST['nombre']) && is_numeric($_POST['cantrondas'])) {
                 $cantrondas = (int) $_POST['cantrondas'];
@@ -71,7 +73,7 @@ else {
                         echo "Se van a jugar $cantrondas rondas, con $numparticipantes participantes </br>";
                         //Procedemos a emparejar a los usuarios, si son pares o no
                         if ($numparticipantes % 2 == 0) {
-                            echo "EMPAREJAMIENTOS:</br>";
+                            echo "EMPAREJAMIENTOS RONDA 1:</br>";
                             //Añadimos el emparejamiento de la primera ronda
                             shuffle($nombres); //Mezclamos los nombres
                             for ($i=0; $i < count($nombres) ; $i+=2) { //El operador += establece el valor de $i como si se hubiera dicho $i = $i+2;
@@ -79,19 +81,33 @@ else {
                         }                  
                         }
                         else {
-                            echo "EMPAREJAMIENTOS:</br>";
+                            echo "EMPAREJAMIENTOS RONDA 1: Selecciona al ganador, o los jugadores que empatan</br>";
                             $bye = "BYE";
                             //Añadimos el bye, al array para indicar que el que se quede solo tenga la victoria automática
                             array_push($nombres, $bye);
                             shuffle($nombres);
                             for ($i=0; $i < count($nombres) ; $i+=2) {
-                                 echo $nombres[$i]." vs ".$nombres[$i+1]."<br>";
-                            }        
+                                $nombreizda = $nombres[$i];
+                                $nombredcha = $nombres[$i+1];
+                                 echo $nombres[$i]." <input type='checkbox' name='gana[]' value='$nombreizda'>"." vs ".$nombres[$i+1]." <input type='checkbox' name='gana[]' value='$nombredcha'>"." Empate <input type='checkbox' name='empate[]' value='Empate'>"."<br>";
+                            }
                     }
                 }
             }
             else {
                 echo"Debes introducir todos los datos";
+            }
+        ?>
+        <input type="submit" value="Enviar"> &nbsp; <input type="reset" value="Reestablecer">
+        </form>
+        <?php
+            if (isset($_POST['gana'])) {
+                $ganadores = $_POST['gana'];
+                echo"<br>";
+                echo"Ganan la primera ronda: ".implode(", ", $ganadores);
+            }
+            else {
+                die("Cuando envíes la lista de participantes, selecciona quién gana o empata");
             }
         ?>
     </body>
