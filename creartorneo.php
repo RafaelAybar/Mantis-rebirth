@@ -77,8 +77,12 @@ else {
                             //Añadimos el emparejamiento de la primera ronda
                             shuffle($nombres); //Mezclamos los nombres
                             for ($i=0; $i < count($nombres) ; $i+=2) { //El operador += establece el valor de $i como si se hubiera dicho $i = $i+2;
-                                echo $nombres[$i]." vs ".$nombres[$i+1]."<br>";
-                        }                  
+                                $nombreizda = $nombres[$i];
+                                $nombredcha = $nombres[$i+1];
+                                $jempate= "$nombreizda y $nombredcha";
+                                echo $nombres[$i]." <input type='checkbox' name='gana[]' value='$nombreizda'>"." vs ".$nombres[$i+1]." <input type='checkbox' name='gana[]' value='$nombredcha'>"." Empate <input type='checkbox' name='empate[]' value='$jempate'>"."<br>";
+                                
+                        }
                         }
                         else {
                             echo "EMPAREJAMIENTOS RONDA 1: Selecciona al ganador, o los jugadores que empatan</br>";
@@ -89,7 +93,8 @@ else {
                             for ($i=0; $i < count($nombres) ; $i+=2) {
                                 $nombreizda = $nombres[$i];
                                 $nombredcha = $nombres[$i+1];
-                                 echo $nombres[$i]." <input type='checkbox' name='gana[]' value='$nombreizda'>"." vs ".$nombres[$i+1]." <input type='checkbox' name='gana[]' value='$nombredcha'>"." Empate <input type='checkbox' name='empate[]' value='Empate'>"."<br>";
+                                $jempate= "$nombreizda y $nombredcha";
+                                echo $nombres[$i]." <input type='checkbox' name='gana[]' value='$nombreizda'>"." vs ".$nombres[$i+1]." <input type='checkbox' name='gana[]' value='$nombredcha'>"." Empate <input type='checkbox' name='empate[]' value='$jempate'>"."<br>";
                             }
                     }
                 }
@@ -105,6 +110,10 @@ else {
                 $ganadores = $_POST['gana'];
                 echo"<br>";
                 echo"Ganan la primera ronda: ".implode(", ", $ganadores);
+                if (isset($_POST['empate'])) {
+                    $empate = $_POST['empate'];
+                    echo "Empatan las siguientes personas: ".implode(", ",$empate);
+                }
             }
             else {
                 die("Cuando envíes la lista de participantes, selecciona quién gana o empata");
