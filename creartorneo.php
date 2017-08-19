@@ -30,20 +30,21 @@ else {
         <form id="espectorneo" method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>">
             <table>
                 <tr>
-                    <td>Número de rondas (mínimo 3, máximo 10)</td><td><input type="number" name="cantrondas" min="3" max="8" required></td>
+                    <td>Número de rondas (mínimo 3, máximo 7)</td><td><input type="number" name="cantrondas" min="3" max="8" required></td>
                 </tr>
                 <tr>
                     <td>Selección de Jugadores (mínimo 4)</td><td><?php
                     //Haremos una consulta para mostrar todos los jugores registrados
                     $nombreserver = "localhost";
                     $usuario = "root";
-                    $contra = "";
+                    $contra = "ras";
                     $bd = "mantis";
                     $conexion = mysqli_connect($nombreserver, $usuario, $contra, $bd) or die("No se pudo conectar");
                     
                     //Preparamos la consulta
                     $consulta="SELECT nombre FROM jugadores";
                     $resultado = $conexion -> query($consulta);
+                   
                     //Mostramos todos los nombres
                    while ($columna = $resultado -> fetch_assoc()) {
                       $nombre = $columna['nombre'];
@@ -82,7 +83,7 @@ else {
                                 $jempate= "$nombreizda y $nombredcha";
                                 echo $nombres[$i]." <input type='checkbox' name='gana[]' value='$nombreizda'>"." vs ".$nombres[$i+1]." <input type='checkbox' name='gana[]' value='$nombredcha'>"." Empate <input type='checkbox' name='empate[]' value='$jempate'>"."<br>";
                                 
-                        }
+                        }                             
                         }
                         else {
                             echo "EMPAREJAMIENTOS RONDA 1: Selecciona al ganador, o los jugadores que empatan</br>";
@@ -93,7 +94,7 @@ else {
                             for ($i=0; $i < count($nombres) ; $i+=2) {
                                 $nombreizda = $nombres[$i];
                                 $nombredcha = $nombres[$i+1];
-                                $jempate= "$nombreizda y $nombredcha";
+                                $jempate= "$nombreizda empata con $nombredcha";
                                 echo $nombres[$i]." <input type='checkbox' name='gana[]' value='$nombreizda'>"." vs ".$nombres[$i+1]." <input type='checkbox' name='gana[]' value='$nombredcha'>"." Empate <input type='checkbox' name='empate[]' value='$jempate'>"."<br>";
                             }
                     }
@@ -107,13 +108,17 @@ else {
         </form>
         <?php
             if (isset($_POST['gana'])) {
-                $ganadores = $_POST['gana'];
+                $ganadores1 = $_POST['gana'];
                 echo"<br>";
                 echo"Ganan la primera ronda: ".implode(", ", $ganadores);
                 if (isset($_POST['empate'])) {
-                    $empate = $_POST['empate'];
-                    echo "Empatan las siguientes personas: ".implode(", ",$empate);
+                    $empate1 = $_POST['empate'];
+                    echo "Ganan: ".implode(", ", $ganadores1)." "."Empatan: ".implode(", ",$empate1);
+                    echo "<br>";
                 }
+                //Guardamos el resultado en un array con el número de cada ronda, los arrays empiezan en el 0, por lo que la ronda 1 tiene la posición 0
+                $torneo[0] = array_merge($ganadores1, $empate1);
+                print_r($torneo[0]);
             }
             else {
                 die("Cuando envíes la lista de participantes, selecciona quién gana o empata");

@@ -11,13 +11,8 @@
             $coste = ['coste'=> 18];
             $passhash = password_hash($pass, PASSWORD_DEFAULT,$coste);
             //conectamos a la bd (las contraseñas son de prueba, hay que sustituirlas por otras más seguras)
-            $conexion = mysqli_connect("localhost","root","", "mantis") or
+            $conexion = mysqli_connect("localhost","root","ras", "mantis") or
                         die("conexión errónea");
-                $nombreserver = "localhost";
-                        $usuarioo = "root";
-                        $contra = "";
-                        $bd = "mantis";
-                $conexion = mysqli_connect($nombreserver, $usuarioo, $contra, $bd);
             //Preparamos la consulta
             $consultaprep = $conexion -> prepare("INSERT INTO `jugadores` (`nombre`, `contrasena`) VALUES (?, ?);");
             //Ligamos los parámetros
