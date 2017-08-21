@@ -110,7 +110,6 @@ else {
             if (isset($_POST['gana'])) {
                 $ganadores1 = $_POST['gana'];
                 echo"<br>";
-                echo"Ganan la primera ronda: ".implode(", ", $ganadores1);
                 if (isset($_POST['empate'])) {
                     $empate1 = $_POST['empate'];
                     echo "Ganan: ".implode(", ", $ganadores1)." "." Empatan: ".implode(", ",$empate1);
