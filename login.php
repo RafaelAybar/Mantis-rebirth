@@ -10,7 +10,7 @@
                 //Definimos los parámetros de mysqli, primero estableciendo los parámetros de conexión:
                 $nombreserver = "localhost";
                 $usuario = "root";
-                $contra = "";
+                $contra = "ras";
                 $bd = "mantis";
                 $conexion = mysqli_connect($nombreserver, $usuario, $contra, $bd);
             //comprobamos que podemos establecer conexión
