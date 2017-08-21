@@ -110,15 +110,35 @@ else {
             if (isset($_POST['gana'])) {
                 $ganadores1 = $_POST['gana'];
                 echo"<br>";
-                echo"Ganan la primera ronda: ".implode(", ", $ganadores);
+                echo"Ganan la primera ronda: ".implode(", ", $ganadores1);
                 if (isset($_POST['empate'])) {
                     $empate1 = $_POST['empate'];
-                    echo "Ganan: ".implode(", ", $ganadores1)." "."Empatan: ".implode(", ",$empate1);
+                    echo "Ganan: ".implode(", ", $ganadores1)." "." Empatan: ".implode(", ",$empate1);
                     echo "<br>";
                 }
+                 //Anotamos las puntuaciones
+                    foreach ($ganadores1 as $indice => $value) {
+                        $ganadores1[$indice]=$ganadores1[$indice]."+3";
+                        $indice++;
+                    }
+                        if (count($empate1) == 0) {
+                            echo "No ha empatado nadie </br>";
+                        }
+                        else {
+                            foreach ($empate1 as $indicee => $valuee) {
+                                $empate1[$indicee]= $empate1[$indicee]."+1";
+                                $indicee++;
+                            }
+                        }
                 //Guardamos el resultado en un array con el número de cada ronda, los arrays empiezan en el 0, por lo que la ronda 1 tiene la posición 0
                 $torneo[0] = array_merge($ganadores1, $empate1);
-                print_r($torneo[0]);
+               print_r($ganadores1);
+               echo"<br>";
+               print_r($empate1);
+               echo"<br>";
+               print_r($torneo[0]);
+                //Creamos la segunda ronda
+            
             }
             else {
                 die("Cuando envíes la lista de participantes, selecciona quién gana o empata");
