@@ -85,29 +85,39 @@ else {
                         echo "Se van a jugar $numrondas rondas, con $numparticipantes participantes </br>";
                         //Llamamos a la función que realiza el emparejamiento
                             echo "EMPAREJAMIENTOS RONDA 1: Selecciona al ganador, o los jugadores que empatan</br>";
-                            echo emparejaronda($nombres, $numparticipantes, $numronda);
-                    
+                            $rondaactual = 1;
+                            echo emparejaronda($nombres, $numparticipantes, $numrondas);
+                        
                }                            
             else {
                 echo"Debes introducir todos los datos";
             }
         ?>
-        <input type="submit" value="Enviar"> &nbsp; <input type="reset" value="Reestablecer">
+        <input type="submit" value="Enviar"> <input type="reset" value="Reestablecer">
         </form>
         <?php
-            if (isset($_POST['gana'])) {
-                $ganadores1 = $_POST['gana'];
-                include 'funciones.php';
-                if (empty($_POST['jempate'])) {
-                    echo "No ha empatado nadie";
+            include 'funciones.php';
+            //Sumamos los puntos
+            if (isset($_POST['gana']) && isset($_POST['empate'])) {
+                $ganadores = $_POST['gana'];
+                $empate = $_POST['empate'];
+                print_r(sumarganadores($ganadores));
+                sumarempates($empate);
             }
-            else {
-                die("Introduce los ganadores");
+            elseif (empty($_POST['gana'])) {
+                    echo "No ha ganado nadie";
+                    $empate = $_POST['empate'];
+                }
+            elseif (empty($_POST['empate'])) {
+                echo "Nadie empata";
             }
+            
+            
+        
+        else {
+            die("Debe ganar o empatar alguien");
         }
-            else {
-                die("Cuando envíes la lista de participantes, selecciona quién gana o empata");
-            }
+            
         ?>
     </body>
 </html>
