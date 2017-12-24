@@ -30,7 +30,7 @@
         foreach ($empate as $indice => $valor) {
                     $empate[$indice] = $valor. " +1 ";
                 }
-            return $empate;
+        return $empate;
         }
         // Sumamos los puntos a los ganadores
        

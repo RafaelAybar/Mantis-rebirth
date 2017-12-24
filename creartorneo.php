@@ -57,11 +57,9 @@ else {
         <!-- Muy importante asigarle un ID a cada formulario, para evittar problemas -->
         <form id="formboton" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
             <?php
-            //Nos aseguramos de que la cantidad de rondas sea un número entero
+            include 'funciones.php';
             if (isset($_POST['nombre'])) {
-               include 'funciones.php';
                 $nombres = $_POST['nombre'];
-                
                 //Nos aseguramos de que se cumpla el mínimo de participantes y el numero de rondas
                 $numparticipantes = count($nombres);
                 if ($numparticipantes < 4 || $numparticipantes > 128) {
@@ -92,28 +90,32 @@ else {
             else {
                 echo"Debes introducir todos los datos";
             }
-        ?>
-        <input type="submit" value="Enviar"> <input type="reset" value="Reestablecer">
-        </form>
-        <?php
-            include 'funciones.php';
+    
+        echo "<input type='submit' value='Enviar'> <input type='reset' value='Reestablecer'>";
+        echo" </form>";
+
             //Sumamos los puntos
             if (isset($_POST['gana']) && isset($_POST['empate'])) {
                 $ganadores = $_POST['gana'];
                 $empate = $_POST['empate'];
-                print_r(sumarganadores($ganadores));
-                sumarempates($empate);
+                $empate = sumarempates($empate);
+                $ganadores = sumarganadores($ganadores);
+
             }
-            elseif (empty($_POST['gana'])) {
+            elseif (empty($_POST['gana']) && isset($_POST['empate'])) {
                     echo "No ha ganado nadie";
                     $empate = $_POST['empate'];
+                    $empate = sumarempates($empate);
                 }
-            elseif (empty($_POST['empate'])) {
+            elseif (empty($_POST['empate']) && isset($_POST['gana'])) {
+                $ganadores = $_POST['gana'];
+                $ganadores = sumarganadores($ganadores);
+                echo "<br>";
+                print_r($ganadores);
+                echo "<br>";
                 echo "Nadie empata";
+                
             }
-            
-            
-        
         else {
             die("Debe ganar o empatar alguien");
         }
