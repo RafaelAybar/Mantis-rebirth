@@ -9,8 +9,8 @@
                 //He seguido la siguiente documentación: https://www.w3schools.com/php/php_mysql_prepared_statements.asp
                 //Definimos los parámetros de mysqli, primero estableciendo los parámetros de conexión:
                 $nombreserver = "localhost";
-                $usuario = "root";
-                $contra = "ras";
+                $usuario = "rafa";
+                $contra = "Rafa-1995";
                 $bd = "mantis";
                 $conexion = mysqli_connect($nombreserver, $usuario, $contra, $bd);
             //comprobamos que podemos establecer conexión

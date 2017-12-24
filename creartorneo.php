@@ -30,14 +30,11 @@ else {
         <form id="espectorneo" method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>">
             <table>
                 <tr>
-                    <td>Número de rondas (mínimo 3, máximo 7)</td><td><input type="number" name="cantrondas" min="3" max="8" required></td>
-                </tr>
-                <tr>
                     <td>Selección de Jugadores (mínimo 4)</td><td><?php
                     //Haremos una consulta para mostrar todos los jugores registrados
                     $nombreserver = "localhost";
-                    $usuario = "root";
-                    $contra = "ras";
+                    $usuario = "rafa";
+                    $contra = "Rafa-1995";
                     $bd = "mantis";
                     $conexion = mysqli_connect($nombreserver, $usuario, $contra, $bd) or die("No se pudo conectar");
                     
@@ -61,87 +58,66 @@ else {
         <form id="formboton" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
             <?php
             //Nos aseguramos de que la cantidad de rondas sea un número entero
-            if (isset($_POST['cantrondas']) && isset($_POST['nombre']) && is_numeric($_POST['cantrondas'])) {
-                $cantrondas = (int) $_POST['cantrondas'];
+            if (isset($_POST['nombre'])) {
+               include 'funciones.php';
                 $nombres = $_POST['nombre'];
                 
-                //Nos aseguramos de que se cumpla el mínimo de participantes y el numero max y min de rondas
+                //Nos aseguramos de que se cumpla el mínimo de participantes y el numero de rondas
                 $numparticipantes = count($nombres);
-                if ($numparticipantes < 4) {
-                        echo "Debes seleccionar cuatro o más participantes";
-                        }
-                    else {
-                        echo "Se van a jugar $cantrondas rondas, con $numparticipantes participantes </br>";
-                        //Procedemos a emparejar a los usuarios, si son pares o no
-                        if ($numparticipantes % 2 == 0) {
-                            echo "EMPAREJAMIENTOS RONDA 1:</br>";
-                            //Añadimos el emparejamiento de la primera ronda
-                            shuffle($nombres); //Mezclamos los nombres
-                            for ($i=0; $i < count($nombres) ; $i+=2) { //El operador += establece el valor de $i como si se hubiera dicho $i = $i+2;
-                                $nombreizda = $nombres[$i];
-                                $nombredcha = $nombres[$i+1];
-                                $jempate= "$nombreizda y $nombredcha";
-                                echo $nombres[$i]." <input type='checkbox' name='gana[]' value='$nombreizda'>"." vs ".$nombres[$i+1]." <input type='checkbox' name='gana[]' value='$nombredcha'>"." Empate <input type='checkbox' name='empate[]' value='$jempate'>"."<br>";
-                                
-                        }                             
-                        }
-                        else {
-                            echo "EMPAREJAMIENTOS RONDA 1: Selecciona al ganador, o los jugadores que empatan</br>";
-                            $bye = "BYE";
-                            //Añadimos el bye, al array para indicar que el que se quede solo tenga la victoria automática
-                            array_push($nombres, $bye);
-                            shuffle($nombres);
-                            for ($i=0; $i < count($nombres) ; $i+=2) {
-                                $nombreizda = $nombres[$i];
-                                $nombredcha = $nombres[$i+1];
-                                $jempate= "$nombreizda empata con $nombredcha";
-                                echo $nombres[$i]." <input type='checkbox' name='gana[]' value='$nombreizda'>"." vs ".$nombres[$i+1]." <input type='checkbox' name='gana[]' value='$nombredcha'>"." Empate <input type='checkbox' name='empate[]' value='$jempate'>"."<br>";
-                            }
-                    }
+                if ($numparticipantes < 4 || $numparticipantes > 128) {
+                    die("Número de participantes incorrecto");
                 }
-            }
+                elseif ($numparticipantes <= 8 && $numparticipantes > 4) {
+                    $numrondas = 3;
+                }
+                elseif ($numparticipantes <= 16 && $numparticipantes < 8) {
+                    $numrondas = 4;
+                }
+                elseif ($numparticipantes <= 32 && $numparticipantes > 16) {
+                    $numrondas = 5;
+                }
+                elseif ($numparticipantes <= 64 && $numparticipantes > 32 ) {
+                    $numrondas = 6;
+                }
+                elseif ($numparticipantes <= 128 && $numparticipantes > 64){
+                    $numrondas = 7;
+                }
+                        echo "Se van a jugar $numrondas rondas, con $numparticipantes participantes </br>";
+                        //Llamamos a la función que realiza el emparejamiento
+                            echo "EMPAREJAMIENTOS RONDA 1: Selecciona al ganador, o los jugadores que empatan</br>";
+                            $rondaactual = 1;
+                            echo emparejaronda($nombres, $numparticipantes, $numrondas);
+                        
+               }                            
             else {
                 echo"Debes introducir todos los datos";
             }
         ?>
-        <input type="submit" value="Enviar"> &nbsp; <input type="reset" value="Reestablecer">
+        <input type="submit" value="Enviar"> <input type="reset" value="Reestablecer">
         </form>
         <?php
-            if (isset($_POST['gana'])) {
-                $ganadores1 = $_POST['gana'];
-                echo"<br>";
-                if (isset($_POST['empate'])) {
-                    $empate1 = $_POST['empate'];
-                    echo "Ganan: ".implode(", ", $ganadores1)." "." Empatan: ".implode(", ",$empate1);
-                    echo "<br>";
+            include 'funciones.php';
+            //Sumamos los puntos
+            if (isset($_POST['gana']) && isset($_POST['empate'])) {
+                $ganadores = $_POST['gana'];
+                $empate = $_POST['empate'];
+                print_r(sumarganadores($ganadores));
+                sumarempates($empate);
+            }
+            elseif (empty($_POST['gana'])) {
+                    echo "No ha ganado nadie";
+                    $empate = $_POST['empate'];
                 }
-                 //Anotamos las puntuaciones
-                    foreach ($ganadores1 as $indice => $value) {
-                        $ganadores1[$indice]=$ganadores1[$indice]."+3";
-                        $indice++;
-                    }
-                        if (count($empate1) == 0) {
-                            echo "No ha empatado nadie </br>";
-                        }
-                        else {
-                            foreach ($empate1 as $indicee => $valuee) {
-                                $empate1[$indicee]= $empate1[$indicee]."+1";
-                                $indicee++;
-                            }
-                        }
-                //Guardamos el resultado en un array con el número de cada ronda, los arrays empiezan en el 0, por lo que la ronda 1 tiene la posición 0
-                $torneo[0] = array_merge($ganadores1, $empate1);
-               print_r($ganadores1);
-               echo"<br>";
-               print_r($empate1);
-               echo"<br>";
-               print_r($torneo[0]);
-                //Creamos la segunda ronda
+            elseif (empty($_POST['empate'])) {
+                echo "Nadie empata";
+            }
             
-            }
-            else {
-                die("Cuando envíes la lista de participantes, selecciona quién gana o empata");
-            }
+            
+        
+        else {
+            die("Debe ganar o empatar alguien");
+        }
+            
         ?>
     </body>
 </html>
