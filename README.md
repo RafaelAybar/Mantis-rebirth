@@ -8,12 +8,14 @@ Esta web está destinada a usarse para almacenar y gestionar datos de los torneo
         * Los jugadores que empatan, serán emparejados con los ganadores
         * `BYE` Es un jugador ficticio que otorga una victoria automática al jugador con el que se enfrenta, por lo que no debe poder de ninguna de las maneras ganar ninguna ronda.
         * Las rondas a jugar son determinadas por el número de jugadores (hasta 128) de la siguiente manera:
-|  De 4 a 8  jugadores  | 3 rondas |
-|:---------------------:|:--------:|
-|  De 9 a 16 jugadores  | 4 rondas |
-|  De 17 a 32 jugadores | 5 rondas |
-| De  33 a 64 jugadores | 6 rondas |
-| De 64 a 128 jugadores | 7 rondas |
+
+| Intervalo de jugadores 	| Número de rondas 	|
+|:----------------------:	|------------------	|
+|   De 4 a 8  jugadores  	|     3 rondas     	|
+|   De 9 a 16 jugadores  	|     4 rondas     	|
+|  De 17 a 32 jugadores  	|     5 rondas     	|
+| De  33 a 64 jugadores  	|     6 rondas     	|
+|  De 64 a 128 jugadores 	|     7 rondas     	|
 
 * Registro de jugadores (Con contraseña cifrada).
 * Generar estadísticas con cada jugador y los mazos que juegan.
