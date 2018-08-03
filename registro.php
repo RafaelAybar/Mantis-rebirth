@@ -4,7 +4,7 @@
             $usuario = stripslashes(trim($_POST['nombre']));
             $pass = stripslashes(trim($_POST['pass']));
             $pass2 = stripslashes(trim($_POST['pass2']));
-            if ($nombre == "NULL" || $nombre == "null" || strlen($nombre == 0)) {
+            if ($usuario == "NULL" || $usuario == "null" || strlen($usuario == 0)) {
                 die("El nombre debe de ser coherente");
             }
         if (strlen($pass)>= 8 && strlen($pass2)>= 8 && $pass === $pass2) {
