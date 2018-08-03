@@ -4,6 +4,9 @@
             $usuario = stripslashes(trim($_POST['nombre']));
             $pass = stripslashes(trim($_POST['pass']));
             $pass2 = stripslashes(trim($_POST['pass2']));
+            if ($nombre == "NULL" || $nombre == "null" || strlen($nombre == 0)) {
+                die("El nombre debe de ser coherente");
+            }
         if (strlen($pass)>= 8 && strlen($pass2)>= 8 && $pass === $pass2) {
             //ciframos la contraseña, con las funciones de php7 destinadas para ello
             // más información en https://diego.com.es/encriptacion-y-contrasenas-en-php
