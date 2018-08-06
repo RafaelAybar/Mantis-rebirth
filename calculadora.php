@@ -10,11 +10,11 @@
 <?php
     //Comprobamos que no se puedan marcar las dos opciones a la vez
     if (isset($_POST['cantidad']) && isset($_POST['top2']) && isset($_POST['top3'])) {
-    die("Debes seleccionar entre top 2 o top 3");
+    die("Debes seleccionar entre top 2 o top 3 <a href='calculadora.html'> Volver a calcular</a>");
     }
     //Comprobamos que la cantidad no está vacía
     elseif (empty($_POST['cantidad'])) {
-        die("No has introducido la cantidad");
+        die("No has introducido la cantidad <a href='calculadora.html'> Volver a calcular</a>");
     }
     else{
         //Comprobamos que el dato introducido es un número
@@ -34,11 +34,11 @@
                 echo "Al primero le corresponden $prim €, al segundo $sec €, al tercero $terce €";
                 }
                 else {
-                die("Debes de seleccionar alguna de las opciones");
+                die("Debes de seleccionar alguna de las opciones <a href='calculadora.html'> Volver a calcular</a>");
             }
             }
           else {
-            die("La cantidad debe ser un valor numérico coherente");
+            die("La cantidad debe ser un valor numérico coherente. <a href='calculadora.html'> Volver a calcular</a>");
           }
         }
 ?>
