@@ -39,6 +39,7 @@
         elseif ($numparticipantes <= 128 && $numparticipantes > 64){
             $numrondas = 7;
         }
+        return $numrondas;
     }
     function sumarganadores($ganadores){
          // Sumamos los puntos a los ganadores
