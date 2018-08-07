@@ -18,6 +18,29 @@
                 echo $nombres[$i]." <input type='checkbox' name='gana[]' value='$nombreizda'>"." vs ".$nombres[$i+1]." <input type='checkbox' name='gana[]' value='$nombredcha'>"." Empate <input type='checkbox' name='empate[]' value='$jempate'>"."<br>";
             }
     }
+
+    function contronda($numparticipantes)
+    {
+        if ($numparticipantes < 4 || $numparticipantes > 128) {
+            die("Número de participantes incorrecto");
+        }
+        elseif ($numparticipantes <= 8 && $numparticipantes > 4) {
+            $numrondas = 3;
+        }
+        elseif ($numparticipantes <= 16 && $numparticipantes < 8) {
+            $numrondas = 4;
+        }
+        elseif ($numparticipantes <= 32 && $numparticipantes > 16) {
+            $numrondas = 5;
+        }
+        elseif ($numparticipantes <= 64 && $numparticipantes > 32 ) {
+            $numrondas = 6;
+        }
+        elseif ($numparticipantes <= 128 && $numparticipantes > 64){
+            $numrondas = 7;
+        }
+        return $numrondas;
+    }
     function sumarganadores($ganadores){
          // Sumamos los puntos a los ganadores
          foreach ($ganadores as $indice => $valor) {
