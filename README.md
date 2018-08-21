@@ -2,6 +2,8 @@
 Esta web está destinada a usarse para almacenar y gestionar datos de los torneos que se quieran hacer.
 ## Funcionalidades:
 * Reglas de torneos e información básica(html editable).
+* Cada torneo generará un archivo JSON con el resultado del torneo, que se podrá descargar para auditar los resultados del torneo.
+* En la base de datos sólo se guardará info del jugador ganador y su mazo por el motivo antes mencionado. Los jugadores pueden especificar sus mazos tras finalizar el torneo. No se debe finalizar el torneo sin que nadie indique el mazo jugado.
 * Creación de torneos y emparejamiento (suizo).
     * Criterios de emparejamiento:
         * Ganar otorga 3 puntos, y empatar 1.
