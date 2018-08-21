@@ -1,8 +1,8 @@
 <?php
 
     if (isset($_POST['nombre']) && isset($_POST['pass'])) {
-        $nickjugador = stripslashes(trim($_POST['nombre']));
-        $pass = stripslashes(trim($_POST['pass']));
+        $nickjugador = trim($_POST['nombre']);
+        $pass = trim($_POST['pass']);
         //Definimos el coste hash
         $coste = ['coste'=>18];
         if (strlen($pass)>= 8) {
