@@ -1,9 +1,10 @@
 <?php    
     if (isset($_POST['nombre']) && isset($_POST['pass']) && isset($_POST['pass2'])) {
         #preg_match() puede devolver booleanos o enteros
+    
             if (preg_match('/^[a-z0-9_\-]+$/i',$_POST['nombre']) === 1){
                 $usuario = $_POST['nombre'];
-                if ($usuario == "NULL" || $usuario == "null" || strlen($usuario) == 0) {
+                if ($usuario == "NULL" || $usuario == "null" || strlen($usuario) == 4) {
                     die("El nombre debe de ser coherente");
                 }
                 $pass = $_POST['pass'];
