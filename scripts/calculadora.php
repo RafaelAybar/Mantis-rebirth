@@ -10,10 +10,10 @@
 <?php
 //Comprobamos que no se puedan marcar las dos opciones a la vez
 if (isset($_POST['cantidad']) && isset($_POST['top2']) && isset($_POST['top3'])) {
-    die("Debes seleccionar entre top 2 o top 3 <a href='calculadora.html'> Volver a calcular</a>");
+    die("Debes seleccionar entre top 2 o top 3 <a href='../calculadora.html'> Volver a calcular</a>");
 } //Comprobamos que la cantidad no está vacía
 elseif (empty($_POST['cantidad'])) {
-    die("No has introducido la cantidad <a href='calculadora.html'> Volver a calcular</a>");
+    die("No has introducido la cantidad <a href='../calculadora.html'> Volver a calcular</a>");
 } else {
     //Comprobamos que el dato introducido es un número
     if (is_numeric($_POST['cantidad'])) {
@@ -30,10 +30,10 @@ elseif (empty($_POST['cantidad'])) {
             $terce = $cantidad * 0.2;
             echo "Al primero le corresponden $prim €, al segundo $sec €, al tercero $terce €";
         } else {
-            die("Debes de seleccionar alguna de las opciones <a href='calculadora.html'> Volver a calcular</a>");
+            die("Debes de seleccionar alguna de las opciones <a href='../calculadora.html'> Volver a calcular</a>");
         }
     } else {
-        die("La cantidad debe ser un valor numérico coherente. <a href='calculadora.html'> Volver a calcular</a>");
+        die("La cantidad debe ser un valor numérico coherente. <a href='../calculadora.html'> Volver a calcular</a>");
     }
 }
 ?>
