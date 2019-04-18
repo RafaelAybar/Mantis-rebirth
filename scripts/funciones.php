@@ -20,7 +20,6 @@ function validaNombre()
     }
 }
 
-
 /**
  * @return bool|string
  * @throws Exception
@@ -71,6 +70,14 @@ function conectaBD($nombre, $passcifrada)
 
     try {
         $pdo = new PDO ($dsn, $user, $pass, $options);
+        // El usuario no puede estar registrado previamente
+        $seleccion = $pdo -> prepare('select nombre from jugadores where nombre=?');
+        $seleccion -> execute([$nombre]);
+
+        $usuario = $seleccion -> fetch();
+        if (!empty($usuario)){
+            throw new Exception("El usuario ya se ha registrado");
+        }
 
         // Preparación de la consulta
         $insercion = $pdo ->prepare('insert into jugadores (nombre, contrasena) values (?, ?)');
