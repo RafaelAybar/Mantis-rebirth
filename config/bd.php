@@ -7,4 +7,4 @@ return [
     "pass" => "Rafa-1995",
     "database" => "mantis",
     "charset" => "utf8mb4",
-    ];
+];
