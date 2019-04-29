@@ -21,7 +21,7 @@ class Conectar
     }
 
     /**
-     * @param $db_cfg
+     * @return PDO
      */
     public function conexion()
     {

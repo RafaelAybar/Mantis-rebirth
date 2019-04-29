@@ -7,6 +7,11 @@ class EntidadBase
     private $db;
     private $conectar;
 
+    /**
+     * EntidadBase constructor.
+     * @param $conectar
+     * @param $db_cfg
+     */
     public function __construct($conectar, $db_cfg)
     {
         $this ->table = (string) $table;
@@ -20,6 +25,10 @@ class EntidadBase
         return $this->db();
     }
 
+    /**
+     * @param $pdo
+     * @return array
+     */
     public function obtieneListaJugadores($pdo)
     {
         $listadoJugadores = $pdo->query('select nombre from jugadores ORDER BY id DESC"');
