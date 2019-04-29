@@ -1,17 +1,15 @@
 <?php
-
+require_once 'config/bd.php';
 class Conectar
 {
     private $driver;
     private $host, $user, $pass, $database, $charset;
 
-
     /**
      * Conectar constructor.
      */
-    public function __construct()
+    public function __construct($db_cfg)
     {
-        $db_cfg = require_once 'config/bd.php';
 
         $this->driver = $db_cfg['driver'];
         $this->host = $db_cfg['host'];
@@ -34,6 +32,7 @@ class Conectar
         ];
         try {
             $pdo = new PDO($dsn, $this->user, $this->pass, $opcionesPDO);
+            return $pdo;
         } catch (PDOException $e) {
             throw new PDOException($e->getMessage());
         }
