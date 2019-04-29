@@ -7,6 +7,7 @@ class Conectar
 
     /**
      * Conectar constructor.
+     * @param $db_cfg
      */
     public function __construct($db_cfg)
     {
