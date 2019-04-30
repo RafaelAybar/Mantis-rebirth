@@ -37,4 +37,23 @@ class EntidadBase
         }
         return $resultado;
     }
+
+    /**
+     * compruebaUsuarioExisteAntesInsertar
+     *
+     * @param  mixed $pdo
+     * @param  mixed $nombre
+     * @return void
+     * @throws exception
+     */
+    public function compruebaUsuarioExisteAntesInsertar($pdo, $nombre)
+    {
+        $seleccion = $pdo->prepare('select nombre where nombre = ?');
+        $seleccion -> execute([$nombre]);
+
+        $usuario = $seleccion -> fetch();
+        if (!empty($usuario)) {
+            throw new Exception("El usuario introducido ya existe");
+        }
+    }
 }
