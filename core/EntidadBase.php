@@ -38,22 +38,39 @@ class EntidadBase
         return $resultado;
     }
 
+
     /**
      * compruebaUsuarioExisteAntesInsertar
      *
      * @param  mixed $pdo
      * @param  mixed $nombre
-     * @return void
-     * @throws exception
+     *
+     * @return $usuario
      */
-    public function compruebaUsuarioExisteAntesInsertar($pdo, $nombre)
+    public function compruebaUsuarioExiste($pdo, $nombre)
     {
         $seleccion = $pdo->prepare('select nombre where nombre = ?');
         $seleccion -> execute([$nombre]);
 
         $usuario = $seleccion -> fetch();
-        if (!empty($usuario)) {
-            throw new Exception("El usuario introducido ya existe");
+        return $usuario;
+    }
+
+    /**
+     * borrarUsuario
+     *
+     * @param  mixed $pdo
+     * @param  mixed $nombre
+     * @throws exception
+     * @return void
+     */
+    public function borrarUsuario($pdo, $nombre)
+    {
+        $borrado = $pdo->prepare('delete from user where nombre = ?');
+
+        if (empty(compruebaUsuarioExiste($pdo, $nombre))) {
+            throw new Exception("Ese usuario no existe", 1);
         }
+        $borrado -> execute([$nombre]);
     }
 }
