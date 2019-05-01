@@ -1,9 +1,10 @@
 <?php
 include_once 'Conectar.php';
 include_once '../config/bd.php';
+// https://phpdelusions.net/pdo#dml
+
 class EntidadBase
 {
-    private $table;
     private $db;
     private $conectar;
 
@@ -12,9 +13,8 @@ class EntidadBase
      * @param $conectar
      * @param $db_cfg
      */
-    public function __construct($conectar, $db_cfg)
+    public function __construct($db_cfg)
     {
-        $this ->table = (string) $table;
         // Instanciamos la conexión de la BD
         $this ->conectar = new Conectar($db_cfg);
         //Abrimos la conexión
@@ -31,20 +31,18 @@ class EntidadBase
      */
     public function obtieneListaJugadores($pdo)
     {
-        $listadoJugadores = $pdo->query('select nombre from jugadores ORDER BY id DESC"');
+        $listadoJugadores = $pdo->query('select nombre from jugadores ORDER BY nombre DESC"');
         while ($columna = $listadoJugadores-> fetch_object()) {
             $resultado[] = $columna;
         }
         return $resultado;
     }
 
-
     /**
-     * compruebaUsuarioExisteAntesInsertar
+     * compruebaUsuarioExiste
      *
      * @param  mixed $pdo
      * @param  mixed $nombre
-     *
      * @return $usuario
      */
     public function compruebaUsuarioExiste($pdo, $nombre)
@@ -73,4 +71,12 @@ class EntidadBase
         }
         $borrado -> execute([$nombre]);
     }
+
+public function insertarJugador($pdo, Type $nombre = string, Type $contrasena = string)
+{
+    if (empty(compruebaUsuarioExiste($pdo, $nombre))) {
+        $insercion = $pdo->prepare('insert into jugadores values (?,?)');
+        $insercion -> execute([$nombre, $contrasena]);
+    }
+}
 }
