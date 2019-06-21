@@ -1,6 +1,7 @@
 <?php
 include_once 'Conectar.php';
 include_once '../config/bd.php';
+
 // https://phpdelusions.net/pdo#dml
 
 class EntidadBase
@@ -8,21 +9,31 @@ class EntidadBase
     private $db;
     private $conectar;
 
+
     /**
      * EntidadBase constructor.
-     * @param $conectar
      * @param $db_cfg
      */
     public function __construct($db_cfg)
     {
         // Instanciamos la conexión de la BD
-        $this ->conectar = new Conectar($db_cfg);
+        $this->conectar = new Conectar($db_cfg);
         //Abrimos la conexión
-        $this->db= $this->conectar->conexion();
+        $this->db = $this->conectar->conexion();
     }
 
-    public function db(){
-        return $this->db();
+    /**
+     * compruebaUsuarioExiste
+     *
+     * @param mixed $pdo
+     * @param mixed $nombre
+     * @return mixed $usuario
+     */
+    public function compruebaUsuarioExiste($pdo, $nombre)
+    {
+        $seleccion = $pdo->prepare('select nombre where nombre = ?');
+        $seleccion->execute([$nombre]);
+        return $seleccion->fetch();
     }
 
     /**
@@ -31,36 +42,20 @@ class EntidadBase
      */
     public function obtieneListaJugadores($pdo)
     {
-        $listadoJugadores = $pdo->query('select nombre from jugadores ORDER BY nombre DESC"');
-        while ($columna = $listadoJugadores-> fetch_object()) {
+        $listadoJugadores = $pdo->query('select nombre from jugadores ORDER BY nombre ASC');
+        while ($columna = $listadoJugadores->fetch_object()) {
             $resultado[] = $columna;
         }
         return $resultado;
     }
 
     /**
-     * compruebaUsuarioExiste
-     *
-     * @param  mixed $pdo
-     * @param  mixed $nombre
-     * @return $usuario
-     */
-    public function compruebaUsuarioExiste($pdo, $nombre)
-    {
-        $seleccion = $pdo->prepare('select nombre where nombre = ?');
-        $seleccion -> execute([$nombre]);
-
-        $usuario = $seleccion -> fetch();
-        return $usuario;
-    }
-
-    /**
      * borrarUsuario
      *
-     * @param  mixed $pdo
-     * @param  mixed $nombre
-     * @throws exception
+     * @param mixed $pdo
+     * @param mixed $nombre
      * @return void
+     * @throws exception
      */
     public function borrarUsuario($pdo, $nombre)
     {
@@ -69,14 +64,21 @@ class EntidadBase
         if (empty(compruebaUsuarioExiste($pdo, $nombre))) {
             throw new Exception("Ese usuario no existe", 1);
         }
-        $borrado -> execute([$nombre]);
+        $borrado->execute([$nombre]);
     }
 
-public function insertarJugador($pdo, Type $nombre = string, Type $contrasena = string)
-{
-    if (empty(compruebaUsuarioExiste($pdo, $nombre))) {
-        $insercion = $pdo->prepare('insert into jugadores values (?,?)');
-        $insercion -> execute([$nombre, $contrasena]);
+    /**
+     * @param $pdo
+     * @param $nombre
+     * @param $contrasena
+     * @throws Exception
+     */
+    public function insertarJugador($pdo, $nombre, $contrasena)
+    {
+        if (!compruebaUsuarioExiste($pdo, $nombre)) {
+            throw new Exception("El jugador a introducir ya existe");
+        }
+        $insercion = $pdo->prepare('insert into jugadores(nombre, contrasena) values (:nombre, :contrasena)');
+        $insercion->execute([$nombre, $contrasena]);
     }
-}
 }
