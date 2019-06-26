@@ -1,6 +1,5 @@
 <?php
 include_once 'Conectar.php';
-include_once '../config/bd.php';
 
 // https://phpdelusions.net/pdo#dml
 
@@ -9,15 +8,13 @@ class EntidadBase
     private $db;
     private $conectar;
 
-
     /**
      * EntidadBase constructor.
-     * @param $db_cfg
      */
-    public function __construct($db_cfg)
+    public function __construct()
     {
         // Instanciamos la conexión de la BD
-        $this->conectar = new Conectar($db_cfg);
+        $this->conectar = new Conectar();
         //Abrimos la conexión
         $this->db = $this->conectar->conexion();
     }
@@ -25,24 +22,24 @@ class EntidadBase
     /**
      * compruebaUsuarioExiste
      *
-     * @param mixed $pdo
      * @param mixed $nombre
+     * @param $db
      * @return mixed $usuario
      */
-    public function compruebaUsuarioExiste($pdo, $nombre)
+    public function compruebaUsuarioExiste($nombre, $db)
     {
-        $seleccion = $pdo->prepare('select nombre where nombre = ?');
+        $seleccion = $db->prepare('select nombre where nombre = ?');
         $seleccion->execute([$nombre]);
         return $seleccion->fetch();
     }
 
     /**
-     * @param $pdo
+     * @param $db
      * @return array
      */
-    public function obtieneListaJugadores($pdo)
+    public function obtieneListaJugadores($db)
     {
-        $listadoJugadores = $pdo->query('select nombre from jugadores ORDER BY nombre ASC');
+        $listadoJugadores = $db > query('select nombre from jugadores ORDER BY nombre ASC');
         while ($columna = $listadoJugadores->fetch_object()) {
             $resultado[] = $columna;
         }
@@ -51,15 +48,14 @@ class EntidadBase
 
     /**
      * borrarUsuario
-     *
-     * @param mixed $pdo
+     * @param $db
      * @param mixed $nombre
      * @return void
-     * @throws exception
+     * @throws Exception
      */
-    public function borrarUsuario($pdo, $nombre)
+    public function borrarUsuario($db, $nombre)
     {
-        $borrado = $pdo->prepare('delete from user where nombre = ?');
+        $borrado = $db->prepare('delete from user where nombre = ?');
 
         if (empty(compruebaUsuarioExiste($pdo, $nombre))) {
             throw new Exception("Ese usuario no existe", 1);
@@ -68,17 +64,17 @@ class EntidadBase
     }
 
     /**
-     * @param $pdo
+     * @param $db
      * @param $nombre
      * @param $contrasena
      * @throws Exception
      */
-    public function insertarJugador($pdo, $nombre, $contrasena)
+    public function insertarJugador($db, $nombre, $contrasena)
     {
-        if (!compruebaUsuarioExiste($pdo, $nombre)) {
+        if (!compruebaUsuarioExiste($db, $nombre)) {
             throw new Exception("El jugador a introducir ya existe");
         }
-        $insercion = $pdo->prepare('insert into jugadores(nombre, contrasena) values (:nombre, :contrasena)');
+        $insercion = $db->prepare('insert into jugadores(nombre, contrasena) values (:nombre, :contrasena)');
         $insercion->execute([$nombre, $contrasena]);
     }
 }
