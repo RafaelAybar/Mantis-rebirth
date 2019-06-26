@@ -1,5 +1,5 @@
 <?php
-require_once 'config/bd.php';
+
 class Conectar
 {
     private $driver;
@@ -7,11 +7,10 @@ class Conectar
 
     /**
      * Conectar constructor.
-     * @param $db_cfg
      */
-    public function __construct($db_cfg)
+    public function __construct()
     {
-
+        $db_cfg = require 'config/bd.php';
         $this->driver = $db_cfg['driver'];
         $this->host = $db_cfg['host'];
         $this->user = $db_cfg['user'];

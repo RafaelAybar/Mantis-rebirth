@@ -7,7 +7,6 @@ class EntidadBase
 {
     private $db;
     private $conectar;
-
     /**
      * EntidadBase constructor.
      */
@@ -28,9 +27,10 @@ class EntidadBase
      */
     public function compruebaUsuarioExiste($nombre, $db)
     {
-        $seleccion = $db->prepare('select nombre where nombre = ?');
+        $seleccion = $db->prepare('select count(nombre) where nombre = ?');
         $seleccion->execute([$nombre]);
-        return $seleccion->fetch();
+        $resultado = $seleccion->fetch();
+        return $resultado;
     }
 
     /**
@@ -39,7 +39,7 @@ class EntidadBase
      */
     public function obtieneListaJugadores($db)
     {
-        $listadoJugadores = $db > query('select nombre from jugadores ORDER BY nombre ASC');
+        $listadoJugadores = $db->query('select nombre from jugadores ORDER BY nombre ASC');
         while ($columna = $listadoJugadores->fetch_object()) {
             $resultado[] = $columna;
         }
@@ -57,7 +57,7 @@ class EntidadBase
     {
         $borrado = $db->prepare('delete from user where nombre = ?');
 
-        if (empty(compruebaUsuarioExiste($pdo, $nombre))) {
+        if (compruebaUsuarioExiste($db, $nombre) === 0) {
             throw new Exception("Ese usuario no existe", 1);
         }
         $borrado->execute([$nombre]);
@@ -71,7 +71,7 @@ class EntidadBase
      */
     public function insertarJugador($db, $nombre, $contrasena)
     {
-        if (!compruebaUsuarioExiste($db, $nombre)) {
+        if (compruebaUsuarioExiste($nombre, $db) === 1) {
             throw new Exception("El jugador a introducir ya existe");
         }
         $insercion = $db->prepare('insert into jugadores(nombre, contrasena) values (:nombre, :contrasena)');
